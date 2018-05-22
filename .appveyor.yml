@@ -14,7 +14,7 @@ matrix:
   fast_finish: true
 
 before_build:
-- call "%COMPILER%\vcvarsall.bat" %platform%
+- call "C:\Program Files (x86)\Microsoft Visual Studio 12.0\VC\vcvarsall.bat" %platform%
 
 build_script:
 - git clone https://github.com/Microsoft/vcpkg
