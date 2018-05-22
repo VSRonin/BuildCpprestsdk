@@ -3,7 +3,7 @@ branches:
   only:
     - master
 skip_branch_with_pr: true
-image: Visual Studio 2013
+image: Visual Studio 2015
 clone_depth: 1
 environment:
   matrix:
@@ -14,7 +14,7 @@ matrix:
   fast_finish: true
 
 before_build:
-- call "C:\Program Files (x86)\Microsoft Visual Studio 12.0\VC\vcvarsall.bat" %platform%
+- call "C:\Program Files (x86)\Microsoft Visual Studio 14.0\VC\vcvarsall.bat" %platform%
 
 build_script:
 - git clone https://github.com/Microsoft/vcpkg
@@ -30,7 +30,7 @@ build_script:
 - cd ..\
 
 after_build:
-- set archivename=msvc2013
+- set archivename=msvc2015
 - if %platform%==x86 (set archivename=%archivename%_x86) else (set archivename=%archivename%_x64)
 - 7z a -tzip ".\buildarchive\cpprestsdk_%archivename%.zip" .\vcpkg\buildtrees\*
 
