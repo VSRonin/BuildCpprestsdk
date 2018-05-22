@@ -32,7 +32,7 @@ build_script:
 after_build:
 - set archivename=msvc2015
 - if %platform%==x86 (set archivename=%archivename%_x86) else (set archivename=%archivename%_x64)
-- 7z a -tzip ".\buildarchive\cpprestsdk_%archivename%.zip" .\vcpkg\buildtrees\*
+- 7z a -tzip ".\packagearchive\cpprestsdk_%archivename%.zip" .\vcpkg\packages\*
 
 artifacts:
-- path: '.\buildarchive\*.zip'
+- path: '.\packagearchive\*.zip'
