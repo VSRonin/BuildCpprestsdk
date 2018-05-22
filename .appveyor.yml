@@ -1,0 +1,38 @@
+version: '1.0.0.{build}'
+branches:
+  only:
+    - master
+skip_branch_with_pr: true
+image: Visual Studio 2013
+clone_depth: 1
+environment:
+  matrix:
+  - platform: x86
+  - platform: amd64
+
+matrix:
+  fast_finish: true
+
+before_build:
+- call "%COMPILER%\vcvarsall.bat" %platform%
+
+build_script:
+- git clone https://github.com/Microsoft/vcpkg
+- cd vcpkg
+- ps: '.\bootstrap-vcpkg.bat;
+    .\vcpkg integrate install;
+    if($env:platform -eq "x86"){
+        .\vcpkg install cpprestsdk;
+    }
+    else{
+        .\vcpkg install cpprestsdk:x64-windows;
+    }'
+- cd ..\
+
+after_build:
+- set archivename=msvc2013
+- if %platform%==x86 (set archivename=%archivename%_x86) else (set archivename=%archivename%_x64)
+- 7z a -tzip ".\buildarchive\cpprestsdk_%archivename%.zip" .\vcpkg\buildtrees\*
+
+artifacts:
+- path: '.\buildarchive\*.zip'
